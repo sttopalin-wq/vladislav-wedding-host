@@ -2,13 +2,14 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { Cta } from "./ui";
 import { fullName, site } from "@/lib/site";
 
 /** Положите ролик в public/media/hero.mp4 — он появится поверх кадра автоматически. */
-const HERO_VIDEO = "/media/hero.mp4";
+const HERO_VIDEO = asset("/media/hero.mp4");
 
 const line = (text: string, i: number, extra = "") => (
   <span className="block overflow-hidden pb-[0.1em] -mb-[0.1em]">
@@ -38,7 +39,7 @@ export default function Hero() {
     <section ref={ref} id="top" aria-label="Главный экран" className="relative h-[100svh] min-h-[680px] overflow-hidden bg-ink">
       {/* фон: размытый кадр + затемнение */}
       <motion.div style={{ y: bgY, scale: bgScale }} className="absolute inset-0">
-        <Image src="/media/ig-mic.jpg" alt="" fill priority sizes="100vw" className="scale-110 object-cover opacity-45 blur-2xl grayscale-[.4]" />
+        <Image src={asset("/media/ig-mic.jpg")} alt="" fill priority sizes="100vw" className="scale-110 object-cover opacity-45 blur-2xl grayscale-[.4]" />
       </motion.div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,transparent_0%,rgba(7,7,7,.75)_70%),linear-gradient(to_bottom,rgba(7,7,7,.5),transparent_30%,rgba(7,7,7,.95))]" />
       <div className="grain absolute inset-0 overflow-hidden" aria-hidden />
@@ -51,7 +52,7 @@ export default function Hero() {
         transition={{ duration: 1.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         className="absolute right-[-8%] top-[16%] z-[1] aspect-[3/4] w-[62vw] max-w-[520px] overflow-hidden rounded-sm md:right-[6vw] md:top-[14%] md:w-[28vw]"
       >
-        <Image src="/media/ig-mic-hero.jpg" alt={`${fullName} с микрофоном на свадьбе`} fill priority sizes="(min-width:768px) 30vw, 60vw" className="object-cover" />
+        <Image src={asset("/media/ig-mic-hero.jpg")} alt={`${fullName} с микрофоном на свадьбе`} fill priority sizes="(min-width:768px) 30vw, 60vw" className="object-cover" />
         <video
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${videoOk ? "opacity-100" : "opacity-0"}`}
           src={HERO_VIDEO}

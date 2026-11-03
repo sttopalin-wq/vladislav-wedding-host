@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { theses } from "@/lib/content";
 import { Eyebrow, Lines, FadeUp, Cta } from "./ui";
@@ -24,7 +25,7 @@ function Thesis({ t, i }: { t: (typeof theses)[number]; i: number }) {
         <FadeUp className="mt-6 max-w-md text-lg text-milk/65" delay={0.2}>{t.note}</FadeUp>
       </div>
       <motion.div style={{ y }} className="relative hidden aspect-[3/4] w-full max-w-[220px] justify-self-end overflow-hidden rounded-sm md:col-span-3 md:block">
-        <Image src={t.img} alt="" fill sizes="220px" className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" />
+        <Image src={asset(t.img)} alt="" fill sizes="220px" className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" />
       </motion.div>
     </div>
   );

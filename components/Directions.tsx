@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { directions } from "@/lib/content";
 import { Eyebrow, Lines, FadeUp } from "./ui";
 
@@ -27,7 +28,7 @@ export default function Directions() {
                 className={`relative min-h-0 min-w-0 overflow-hidden rounded-sm bg-ink transition-[flex-grow] duration-[900ms] ease-[cubic-bezier(.16,1,.3,1)] ${on ? "grow-[4]" : "grow-[1]"} basis-0`}
               >
                 <Image
-                  src={d.img}
+                  src={asset(d.img)}
                   alt=""
                   fill
                   sizes="(min-width:768px) 60vw, 100vw"

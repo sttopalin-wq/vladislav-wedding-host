@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { AnimatePresence, motion } from "motion/react";
 import { Play, X } from "lucide-react";
 import { reels, type Reel } from "@/lib/content";
@@ -23,7 +24,7 @@ function Tile({ r, i, onOpen }: { r: Reel; i: number; onOpen: (r: Reel) => void 
     >
       <motion.div layoutId={`reel-${r.id}`} className="absolute inset-0">
         <Image
-          src={r.img}
+          src={asset(r.img)}
           alt={r.title}
           fill
           sizes="(min-width:768px) 40vw, 50vw"
@@ -72,8 +73,8 @@ function Lightbox({ r, onClose }: { r: Reel; onClose: () => void }) {
     >
       <div className="grid max-h-full w-full max-w-6xl items-center gap-8 md:grid-cols-[auto_1fr]" onClick={(e) => e.stopPropagation()}>
         <motion.div layoutId={`reel-${r.id}`} className="relative mx-auto aspect-[3/4] h-[62svh] max-h-[80svh] overflow-hidden rounded-sm bg-graphite md:h-[80svh]">
-          <Image src={r.img} alt={r.title} fill sizes="60vw" className="object-cover" />
-          {r.video && <video src={r.video} className="absolute inset-0 h-full w-full object-cover" controls autoPlay playsInline />}
+          <Image src={asset(r.img)} alt={r.title} fill sizes="60vw" className="object-cover" />
+          {r.video && <video src={asset(r.video)} className="absolute inset-0 h-full w-full object-cover" controls autoPlay playsInline />}
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25, duration: 0.6 }} className="max-w-md">
           <p className="label text-acid">Реальный момент</p>

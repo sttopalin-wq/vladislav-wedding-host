@@ -13,6 +13,9 @@ const Insta = (p: { className?: string }) => (
   </svg>
 );
 
+/** Адрес приёма заявок (Formspree и т.п.). Без него форма открывает Telegram/WhatsApp ведущего. */
+const ENDPOINT = process.env.NEXT_PUBLIC_LEAD_ENDPOINT ?? "";
+
 type State = "idle" | "sending" | "done" | "error";
 
 const field =
@@ -40,9 +43,25 @@ export default function Contact() {
     setState("sending");
     setErr("");
     try {
-      const res = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.error || "Не удалось отправить");
+      const text = [
+        "Новая заявка с сайта",
+        `Имя: ${data.name}`,
+        `Дата: ${data.date}`,
+        `Город: ${data.city}`,
+        `Гостей: ${data.guests}`,
+        `Связь: ${data.contact}`,
+      ].join("\n");
+      if (data.website) return setState("done"); // ловушка для ботов
+      if (ENDPOINT) {
+        const res = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) });
+        if (!res.ok) throw new Error("Не удалось отправить");
+      } else {
+        // нет подключённой почты/формы: копируем заявку и открываем мессенджер ведущего
+        const target = [link("telegram"), link("whatsapp")].find((l) => l.external);
+        if (!target) throw new Error("Каналы связи ещё не подключены");
+        await navigator.clipboard?.writeText(text).catch(() => {});
+        window.open(target.href, "_blank", "noopener,noreferrer");
+      }
       setState("done");
       form.reset();
     } catch (e2) {
@@ -75,7 +94,7 @@ export default function Contact() {
                   <Check className="size-7" />
                 </span>
                 <p className="display text-4xl md:text-5xl">Заявка отправлена</p>
-                <p className="max-w-md text-lg text-milk/70">Я свяжусь с вами, как только увижу заявку, и мы проверим вашу дату.</p>
+                <p className="max-w-md text-lg text-milk/70">Если открылся мессенджер — вставьте скопированный текст и отправьте. Иначе я сам свяжусь с вами и проверю вашу дату.</p>
                 <button type="button" onClick={() => setState("idle")} className="label text-acid underline underline-offset-4">
                   Отправить ещё одну
                 </button>

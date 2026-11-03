@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { lifePhotos } from "@/lib/content";
 import { Eyebrow, Lines, FadeUp } from "./ui";
@@ -38,7 +39,7 @@ export default function About() {
             const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : L.y);
             return (
               <motion.figure key={p.src} style={{ y, rotate: L.rot }} className={`group relative overflow-hidden rounded-sm ${L.cls}`}>
-                <Image src={p.src} alt={p.cap} fill sizes="(min-width:768px) 30vw, 60vw" className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" />
+                <Image src={asset(p.src)} alt={p.cap} fill sizes="(min-width:768px) 30vw, 60vw" className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" />
                 <figcaption className="label absolute bottom-3 left-3 rounded-full bg-black/70 px-3 py-1.5 text-[0.6rem] backdrop-blur">{p.cap}</figcaption>
               </motion.figure>
             );
